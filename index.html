@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>House Compare — English Writing Practice</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:system-ui,sans-serif;font-weight:300;background:#F8F4EF;min-height:100vh;}
+#name-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;background:#F8F4EF;}
+.name-card{background:white;border-radius:20px;padding:3rem 2.5rem;max-width:400px;width:90%;box-shadow:0 8px 40px rgba(61,43,31,.13);text-align:center;}
+.name-card h1{font-size:2rem;font-weight:700;color:#3D2B1F;margin-bottom:.3rem;}
+.name-card h1 span{color:#D4A853;}
+.name-card .sub{color:#8a7a6e;font-size:.88rem;line-height:1.65;margin-bottom:2rem;}
+.name-card label{display:block;font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#a09088;margin-bottom:.4rem;text-align:left;}
+.name-card input{width:100%;border:2px solid #e0d8d0;border-radius:10px;padding:.75rem 1rem;font-size:1rem;color:#3D2B1F;background:#fdfaf7;outline:none;margin-bottom:1.2rem;font-family:inherit;}
+.name-card input:focus{border-color:#C4622D;}
+.btn-primary{padding:.75rem 1.8rem;border-radius:8px;font-size:.95rem;font-weight:600;cursor:pointer;border:none;background:#C4622D;color:white;font-family:inherit;width:100%;}
+.btn-primary:disabled{opacity:.4;cursor:not-allowed;}
+#app-screen{display:none;}
+header{background:#3D2B1F;padding:1rem 1.5rem;display:flex;align-items:center;justify-content:space-between;}
+header h1{font-size:1.2rem;font-weight:700;color:#F8F4EF;}
+header h1 span{color:#D4A853;}
+.hdr-right{display:flex;gap:.5rem;align-items:center;}
+.chip{background:rgba(255,255,255,.15);color:#F8F4EF;padding:.2rem .7rem;border-radius:20px;font-size:.75rem;}
+.bdg{background:#C4622D;color:white;padding:.2rem .7rem;border-radius:20px;font-size:.68rem;font-weight:700;text-transform:uppercase;}
+main{max-width:980px;margin:0 auto;padding:1.5rem 1rem 4rem;}
+.intro{text-align:center;margin-bottom:1.5rem;}
+.intro h2{font-size:1.6rem;font-weight:700;color:#3D2B1F;margin-bottom:.3rem;}
+.intro p{color:#6a5c52;font-size:.88rem;line-height:1.7;}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1.5rem;}
+@media(max-width:650px){.grid{grid-template-columns:1fr;}}
+.hcard{border-radius:12px;overflow:hidden;background:white;box-shadow:0 3px 16px rgba(61,43,31,.09);}
+.svgwrap{position:relative;background:#f0ebe4;height:155px;overflow:hidden;}
+.svgwrap svg{width:100%;height:100%;}
+.hlbl{position:absolute;top:8px;left:8px;color:white;padding:.18rem .5rem;border-radius:4px;font-size:.65rem;font-weight:700;text-transform:uppercase;}
+.hinfo{padding:.7rem .85rem;}
+.hinfo h3{font-size:.9rem;font-weight:700;color:#3D2B1F;margin-bottom:.18rem;}
+.hinfo p{font-size:.73rem;color:#7a6a60;line-height:1.45;}
+.tags{display:flex;flex-wrap:wrap;gap:.2rem;margin-top:.35rem;}
+.tag{font-size:.62rem;font-weight:500;padding:.12rem .4rem;border-radius:8px;border:1.5px solid;}
+.center-btn{text-align:center;margin-bottom:1.5rem;}
+.btn-sec{padding:.7rem 1.6rem;border-radius:8px;font-size:.88rem;font-weight:500;cursor:pointer;background:transparent;color:#3D2B1F;border:2px solid #3D2B1F;font-family:inherit;}
+.btn-sec:hover{background:#3D2B1F;color:white;}
+.wcard{background:white;border-radius:12px;padding:1.4rem 1.6rem;box-shadow:0 3px 16px rgba(61,43,31,.07);margin-bottom:1.2rem;}
+.wcard h3{font-size:1.1rem;font-weight:700;color:#3D2B1F;margin-bottom:.3rem;}
+.hint{font-size:.8rem;color:#8a7a6e;margin-bottom:.9rem;line-height:1.6;}
+.pills{display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:.9rem;}
+.pill{background:#fdf6f0;border:1.5px solid #e8d8cc;border-radius:20px;padding:.28rem .75rem;font-size:.75rem;color:#3D2B1F;}
+.pill strong{color:#C4622D;}
+textarea{width:100%;min-height:120px;border:2px solid #e0d8d0;border-radius:8px;padding:.85rem;font-size:.9rem;line-height:1.7;color:#3D2B1F;background:#fdfaf7;resize:vertical;outline:none;font-family:inherit;}
+textarea:focus{border-color:#C4622D;}
+textarea::placeholder{color:#c4b4a8;}
+.char-count{text-align:right;font-size:.7rem;color:#a09088;margin-top:.2rem;}
+.btn-row{display:flex;gap:.8rem;justify-content:center;margin-top:1.2rem;flex-wrap:wrap;}
+.btn-check{padding:.75rem 1.8rem;border-radius:8px;font-size:.95rem;font-weight:600;cursor:pointer;border:none;background:#C4622D;color:white;font-family:inherit;}
+.btn-check:disabled{opacity:.4;cursor:not-allowed;}
+.loading{text-align:center;padding:2rem;}
+.spinner{width:32px;height:32px;border:3px solid #e0d8d0;border-top-color:#C4622D;border-radius:50%;animation:spin .8s linear infinite;margin:0 auto .8rem;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading p{color:#8a7a6e;font-style:italic;font-size:.85rem;}
+.rcard{background:white;border-radius:12px;padding:1.6rem;box-shadow:0 3px 16px rgba(61,43,31,.08);margin-bottom:1.2rem;}
+.rhead{display:flex;align-items:center;gap:.8rem;margin-bottom:1.1rem;padding-bottom:1rem;border-bottom:1px solid #e8e0d8;}
+.score-circle{width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.2rem;font-weight:700;flex-shrink:0;}
+.rhead-info h3{font-size:1.1rem;font-weight:700;color:#3D2B1F;}
+.rhead-info small{font-size:.73rem;color:#a09088;}
+.teacher-comment{background:#fdf8f2;border-left:4px solid #D4A853;border-radius:0 8px 8px 0;padding:.85rem 1rem;font-size:.88rem;line-height:1.75;font-style:italic;margin-bottom:1.2rem;}
+.sec-title{font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:#a09088;margin-bottom:.45rem;font-weight:500;}
+.ann-text{background:#fdfaf7;border:1px solid #e0d8d0;border-radius:6px;padding:.85rem;font-size:.9rem;line-height:1.9;margin-bottom:1.2rem;}
+.err-span{border-radius:3px;padding:0 2px;text-decoration:underline wavy;cursor:help;}
+.elist{display:flex;flex-direction:column;gap:.6rem;margin-bottom:1.2rem;}
+.ecard{border-radius:8px;background:#fdfaf7;padding:.7rem .9rem;border-left:4px solid;}
+.type-badge{font-size:.63rem;font-weight:700;text-transform:uppercase;padding:.1rem .42rem;border-radius:7px;display:inline-block;margin-bottom:.22rem;}
+.wrong-line{font-size:.78rem;color:#B83232;font-weight:500;margin-bottom:.1rem;}
+.wrong-line span{background:#ffe8e8;border-radius:3px;padding:0 3px;}
+.right-line{font-size:.78rem;color:#4A7C59;font-weight:500;margin-bottom:.15rem;}
+.right-line span{background:#e8f0eb;border-radius:3px;padding:0 3px;}
+.explanation{font-size:.78rem;color:#6a5c52;line-height:1.5;}
+.corrected-box{background:#E8EDE4;border:1px solid #c5d4bc;border-radius:6px;padding:.85rem;font-size:.9rem;line-height:1.8;margin-bottom:1.2rem;}
+.no-errors{text-align:center;padding:1.2rem;color:#4A7C59;}
+.scard{background:white;border:2px solid #7A8C6E;border-radius:12px;padding:1.6rem 1.8rem;box-shadow:0 3px 16px rgba(61,43,31,.07);text-align:center;}
+.scard h3{font-size:1.1rem;font-weight:700;color:#7A8C6E;margin-bottom:.4rem;}
+.scard p{font-size:.82rem;color:#6a5c52;line-height:1.6;margin-bottom:1.2rem;}
+.btn-green{padding:.9rem 2.5rem;border-radius:10px;font-size:1rem;font-weight:700;cursor:pointer;border:none;background:#4A7C59;color:white;font-family:inherit;}
+.btn-green:hover{background:#3a6048;}
+.sent-msg{color:#4A7C59;font-weight:600;margin-top:.5rem;}
+.sent-sub{font-size:.82rem;color:#6a5c52;margin-top:.3rem;}
+.err-msg{color:#B83232;font-size:.82rem;margin-top:.5rem;}
+</style>
+</head>
+<body>
+
+<!-- NAME SCREEN -->
+<div id="name-screen">
+  <div class="name-card">
+    <h1>House <span>Compare</span></h1>
+    <p class="sub">Look at three houses and write a comparison paragraph in English. You will get instant teacher feedback.</p>
+    <label>Your full name</label>
+    <input type="text" id="name-input" placeholder="e.g. Ayse Kaya" />
+    <button class="btn-primary" id="start-btn" disabled onclick="startApp()">Start →</button>
+  </div>
+</div>
+
+<!-- APP SCREEN -->
+<div id="app-screen">
+  <header>
+    <h1>House <span>Compare</span></h1>
+    <div class="hdr-right">
+      <span class="chip" id="name-chip">👤</span>
+      <span class="bdg">A2 English</span>
+    </div>
+  </header>
+  <main>
+    <div class="intro">
+      <h2>Compare These Three Houses</h2>
+      <p>Look carefully, then write a paragraph using <strong>comparative</strong>, <strong>superlative</strong>, and <strong>as…as</strong> structures.</p>
+    </div>
+
+    <div class="grid" id="houses-grid"></div>
+
+    <div class="center-btn">
+      <button class="btn-sec" onclick="newHouses()">🔄 New Houses</button>
+    </div>
+
+    <!-- WRITE -->
+    <div class="wcard" id="write-section">
+      <h3>Write a Comparison Paragraph</h3>
+      <p class="hint">Compare the three houses. Use all three structures:</p>
+      <div class="pills">
+        <span class="pill">comparative → <strong>-er than / more … than</strong></span>
+        <span class="pill">superlative → <strong>the -est / the most …</strong></span>
+        <span class="pill">equality → <strong>as … as / not as … as</strong></span>
+      </div>
+      <textarea id="student-text" placeholder="Write your paragraph here…" oninput="updateCount()"></textarea>
+      <div class="char-count"><span id="char-count">0</span> characters</div>
+      <div id="err-msg" class="err-msg"></div>
+      <div class="btn-row">
+        <button class="btn-check" id="check-btn" disabled onclick="checkGrammar()">✓ Check My Writing</button>
+      </div>
+    </div>
+
+    <!-- LOADING -->
+    <div class="loading" id="loading-section" style="display:none;">
+      <div class="spinner"></div>
+      <p>Your teacher is reading your paragraph…</p>
+    </div>
+
+    <!-- RESULTS -->
+    <div id="result-section" style="display:none;">
+      <div class="rcard">
+        <div class="rhead">
+          <div class="score-circle" id="score-circle"></div>
+          <div class="rhead-info">
+            <h3 id="feedback-title"></h3>
+            <small id="score-label"></small>
+          </div>
+        </div>
+        <div class="teacher-comment" id="teacher-comment"></div>
+        <div id="errors-section"></div>
+        <div class="btn-row">
+          <button class="btn-sec" onclick="revise()">✏️ Revise</button>
+          <button class="btn-sec" onclick="newHouses()">→ New Houses</button>
+        </div>
+      </div>
+
+      <div class="scard">
+        <h3>📤 Send to Teacher</h3>
+        <div id="send-section">
+          <p>When you are happy with your work, press the button. A Google Form will open with everything already filled in — just press <strong>Submit</strong>.</p>
+          <button class="btn-green" onclick="submitForm()">📋 Open &amp; Submit Form</button>
+        </div>
+        <div id="sent-section" style="display:none;">
+          <div style="font-size:2.5rem;">✅</div>
+          <p class="sent-msg">Form opened!</p>
+          <p class="sent-sub">Go to that tab and press <strong>Submit</strong> to send to your teacher.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+const API_KEY = "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";
+const FORM = "https://docs.google.com/forms/d/e/1FAIpQLSeJehcIN6bcxa25GqPzp5OLsqa_PcE3ytkuyTTmUAlO137fFQ/viewform";
+
+const HOUSES = [
+  {t:"Red Brick Victorian",d:"A traditional two-storey house with red brick walls, a pitched roof, sash windows, and a small front garden.",c:"#8B3A2A",i:["2 storeys","Red brick","Garden","Classic"],svg:`<svg viewBox="0 0 200 170" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="170" fill="#e8e0d8"/><rect y="148" width="200" height="22" fill="#b8a888"/><rect x="5" y="140" width="190" height="10" fill="#8fae6e" rx="3"/><rect x="30" y="80" width="140" height="65" fill="#8B3A2A"/><line x1="30" x2="170" y1="95" y2="95" stroke="#6a2a1a" stroke-width="1.2"/><line x1="30" x2="170" y1="110" y2="110" stroke="#6a2a1a" stroke-width="1.2"/><line x1="30" x2="170" y1="125" y2="125" stroke="#6a2a1a" stroke-width="1.2"/><polygon points="20,80 100,25 180,80" fill="#4a2e20"/><rect x="118" y="36" width="16" height="28" fill="#6a3a28"/><rect x="48" y="50" width="26" height="22" fill="#a8d4e6" rx="2"/><rect x="126" y="50" width="26" height="22" fill="#a8d4e6" rx="2"/><line x1="61" x2="61" y1="50" y2="72" stroke="white" stroke-width="1.5"/><line x1="48" x2="74" y1="61" y2="61" stroke="white" stroke-width="1.5"/><line x1="139" x2="139" y1="50" y2="72" stroke="white" stroke-width="1.5"/><line x1="126" x2="152" y1="61" y2="61" stroke="white" stroke-width="1.5"/><rect x="45" y="90" width="30" height="28" fill="#a8d4e6" rx="2"/><rect x="125" y="90" width="30" height="28" fill="#a8d4e6" rx="2"/><line x1="60" x2="60" y1="90" y2="118" stroke="white" stroke-width="1.5"/><line x1="45" x2="75" y1="104" y2="104" stroke="white" stroke-width="1.5"/><line x1="140" x2="140" y1="90" y2="118" stroke="white" stroke-width="1.5"/><line x1="125" x2="155" y1="104" y2="104" stroke="white" stroke-width="1.5"/><rect x="85" y="106" width="30" height="39" fill="#4a2e20" rx="3"/><circle cx="112" cy="128" r="2.5" fill="#d4a853"/><ellipse cx="38" cy="141" rx="16" ry="9" fill="#6b9b4e"/><ellipse cx="162" cy="141" rx="16" ry="9" fill="#6b9b4e"/></svg>`},
+  {t:"Modern Glass Villa",d:"A sleek contemporary villa with floor-to-ceiling windows, a flat roof, white walls, and a terrace with a pool.",c:"#2C4A6E",i:["2 storeys","Glass & white","Pool","Modern"],svg:`<svg viewBox="0 0 200 170" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="170" fill="#dce8f0"/><rect y="148" width="200" height="22" fill="#b8c0c8"/><rect x="128" y="132" width="58" height="18" fill="#5ab4d6" rx="3"/><rect x="8" y="100" width="162" height="46" fill="#e8e8e8"/><rect x="28" y="58" width="122" height="44" fill="#d8d8d8"/><rect x="23" y="54" width="132" height="6" fill="#888"/><rect x="4" y="97" width="172" height="5" fill="#888"/><rect x="18" y="107" width="56" height="33" fill="#a8d4e6" rx="1"/><line x1="46" x2="46" y1="107" y2="140" stroke="white" stroke-width="2"/><rect x="83" y="110" width="24" height="35" fill="#5ab4d680" rx="1"/><rect x="118" y="107" width="42" height="33" fill="#a8d4e6" rx="1"/><line x1="139" x2="139" y1="107" y2="140" stroke="white" stroke-width="2"/><rect x="38" y="65" width="46" height="29" fill="#a8d4e6" rx="1"/><rect x="98" y="65" width="42" height="29" fill="#a8d4e6" rx="1"/><line x1="61" x2="61" y1="65" y2="94" stroke="white" stroke-width="2"/><line x1="119" x2="119" y1="65" y2="94" stroke="white" stroke-width="2"/></svg>`},
+  {t:"Cosy Stone Cottage",d:"A charming one-storey cottage with stone walls, a thatched roof, climbing roses, and a flower garden.",c:"#7A5A3A",i:["1 storey","Stone","Flower garden","Rural"],svg:`<svg viewBox="0 0 200 170" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="170" fill="#e0ead8"/><rect y="148" width="200" height="22" fill="#b8a888"/><rect x="5" y="138" width="190" height="12" fill="#8fae6e" rx="3"/><ellipse cx="30" cy="139" rx="22" ry="10" fill="#6b9b4e"/><ellipse cx="170" cy="139" rx="22" ry="10" fill="#6b9b4e"/><circle cx="22" cy="134" r="4" fill="#e8556d"/><circle cx="32" cy="131" r="4" fill="#f5a623"/><circle cx="41" cy="135" r="4" fill="#e8556d"/><circle cx="159" cy="134" r="4" fill="#f5a623"/><circle cx="170" cy="131" r="4" fill="#9b59b6"/><circle cx="180" cy="135" r="4" fill="#e8556d"/><line x1="55" x2="55" y1="92" y2="140" stroke="#5c8a3c" stroke-width="2"/><circle cx="52" cy="102" r="5" fill="#e8556d"/><circle cx="58" cy="114" r="4" fill="#f5a623"/><line x1="145" x2="145" y1="92" y2="140" stroke="#5c8a3c" stroke-width="2"/><circle cx="142" cy="104" r="5" fill="#9b59b6"/><rect x="40" y="90" width="120" height="55" fill="#9a7a5a"/><path d="M40 102 Q60 100 80 102 Q100 104 120 102 Q140 100 160 102" fill="none" stroke="#7a5a3a" stroke-width="1.2"/><path d="M40 114 Q55 116 75 114 Q95 112 115 114 Q135 116 160 114" fill="none" stroke="#7a5a3a" stroke-width="1.2"/><polygon points="25,90 100,32 175,90" fill="#c4962a"/><rect x="112" y="42" width="14" height="26" fill="#8a6a50"/><rect x="55" y="100" width="28" height="22" fill="#a8d4e6" rx="8 8 2 2"/><rect x="117" y="100" width="28" height="22" fill="#a8d4e6" rx="8 8 2 2"/><line x1="69" x2="69" y1="100" y2="122" stroke="white" stroke-width="1.5"/><line x1="55" x2="83" y1="111" y2="111" stroke="white" stroke-width="1.5"/><line x1="131" x2="131" y1="100" y2="122" stroke="white" stroke-width="1.5"/><line x1="117" x2="145" y1="111" y2="111" stroke="white" stroke-width="1.5"/><rect x="84" y="110" width="32" height="35" fill="#8B5E3C" rx="16 16 2 2"/><circle cx="113" cy="133" r="2" fill="#d4a853"/></svg>`},
+  {t:"White Mediterranean Villa",d:"A bright two-storey villa with whitewashed walls, blue shutters, arched windows, and a courtyard with an olive tree.",c:"#2980B9",i:["2 storeys","White & blue","Courtyard","Mediterranean"],svg:`<svg viewBox="0 0 200 170" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="170" fill="#f5e8d0"/><rect y="148" width="200" height="22" fill="#c8b888"/><rect x="155" y="100" width="5" height="50" fill="#7a5a3a"/><ellipse cx="157" cy="96" rx="22" ry="18" fill="#5a8a3c"/><rect x="15" y="65" width="130" height="80" fill="#f0e8d8"/><rect x="25" y="35" width="110" height="32" fill="#f0e8d8"/><rect x="18" y="60" width="134" height="8" fill="#c4622d"/><rect x="28" y="30" width="110" height="8" fill="#c4622d"/><rect x="25" y="80" width="26" height="30" fill="#4a90c4" rx="13 13 2 2"/><rect x="68" y="80" width="26" height="30" fill="#4a90c4" rx="13 13 2 2"/><rect x="111" y="80" width="26" height="30" fill="#4a90c4" rx="13 13 2 2"/><rect x="40" y="40" width="22" height="22" fill="#4a90c4" rx="11 11 2 2"/><rect x="98" y="40" width="22" height="22" fill="#4a90c4" rx="11 11 2 2"/><rect x="72" y="103" width="28" height="40" fill="#7a4010" rx="14 14 2 2"/><circle cx="86" cy="130" r="2.5" fill="#d4a853"/></svg>`},
+  {t:"Rustic Log Cabin",d:"A cosy one-storey wooden cabin surrounded by pine trees, with a porch and a stone chimney.",c:"#6B4020",i:["1 storey","Dark timber","Forest","Rustic"],svg:`<svg viewBox="0 0 200 170" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="170" fill="#d4e0d0"/><polygon points="5,148 18,104 31,148" fill="#3d6b3a"/><polygon points="158,148 171,104 184,148" fill="#3d6b3a"/><rect y="148" width="200" height="22" fill="#d8e8e0"/><rect x="35" y="90" width="130" height="58" fill="#7a4a20"/><line x1="35" x2="165" y1="99" y2="99" stroke="#5a3010" stroke-width="2" opacity="0.4"/><line x1="35" x2="165" y1="108" y2="108" stroke="#5a3010" stroke-width="2" opacity="0.4"/><line x1="35" x2="165" y1="117" y2="117" stroke="#5a3010" stroke-width="2" opacity="0.4"/><line x1="35" x2="165" y1="126" y2="126" stroke="#5a3010" stroke-width="2" opacity="0.4"/><polygon points="25,92 100,37 175,92" fill="#3a2010"/><path d="M25 92 Q60 78 100 73 Q140 78 175 92" fill="white" opacity="0.45"/><rect x="113" y="42" width="16" height="30" fill="#5a3010"/><ellipse cx="123" cy="31" rx="5" ry="7" fill="#ccc" opacity="0.55"/><rect x="47" y="97" width="32" height="30" fill="#f5e6c8" rx="16 16 2 2"/><rect x="119" y="97" width="32" height="30" fill="#f5e6c8" rx="16 16 2 2"/><line x1="63" x2="63" y1="97" y2="127" stroke="#c8a870" stroke-width="1.5"/><line x1="47" x2="79" y1="112" y2="112" stroke="#c8a870" stroke-width="1.5"/><line x1="135" x2="135" y1="97" y2="127" stroke="#c8a870" stroke-width="1.5"/><line x1="119" x2="151" y1="112" y2="112" stroke="#c8a870" stroke-width="1.5"/><rect x="82" y="112" width="36" height="36" fill="#4a2810" rx="3"/><circle cx="116" cy="133" r="2.5" fill="#d4a853"/></svg>`},
+  {t:"Grand Colonial Mansion",d:"An impressive three-storey mansion with tall white columns, symmetrical windows, and manicured lawns.",c:"#4A3020",i:["3 storeys","White columns","Big lawn","Colonial"],svg:`<svg viewBox="0 0 200 170" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="170" fill="#e8e0d8"/><rect y="148" width="200" height="22" fill="#b8a888"/><rect y="138" width="200" height="12" fill="#8fae6e" rx="2"/><circle cx="22" cy="128" r="10" fill="#5a8a3c"/><circle cx="178" cy="128" r="10" fill="#5a8a3c"/><rect x="20" y="55" width="160" height="88" fill="#f2ece4"/><polygon points="30,55 100,20 170,55" fill="#e0d8cc"/><rect x="18" y="52" width="164" height="6" fill="#c8bcac"/><rect x="35" y="55" width="12" height="88" fill="white"/><rect x="62" y="55" width="12" height="88" fill="white"/><rect x="126" y="55" width="12" height="88" fill="white"/><rect x="153" y="55" width="12" height="88" fill="white"/><rect x="44" y="70" width="28" height="35" fill="#a8d4e6" rx="14 14 2 2"/><rect x="128" y="70" width="28" height="35" fill="#a8d4e6" rx="14 14 2 2"/><line x1="58" x2="58" y1="70" y2="105" stroke="white" stroke-width="1.5"/><line x1="44" x2="72" y1="87" y2="87" stroke="white" stroke-width="1.5"/><line x1="142" x2="142" y1="70" y2="105" stroke="white" stroke-width="1.5"/><line x1="128" x2="156" y1="87" y2="87" stroke="white" stroke-width="1.5"/><rect x="81" y="100" width="38" height="43" fill="#4a3020" rx="2"/><ellipse cx="100" cy="100" rx="19" ry="12" fill="#a8d4e6"/><circle cx="115" cy="126" r="2.5" fill="#d4a853"/></svg>`},
+  {t:"Colourful Terraced House",d:"A narrow cheerful city house with a bright yellow facade, bay windows, flower boxes, and a red front door.",c:"#B08800",i:["3 storeys","Bright yellow","Bay window","Urban"],svg:`<svg viewBox="0 0 200 170" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="170" fill="#d8d0d8"/><rect y="148" width="200" height="22" fill="#888098"/><rect y="40" width="50" height="110" fill="#a8a0a8"/><rect x="150" y="50" width="50" height="100" fill="#a8a0a8"/><rect x="48" y="28" width="104" height="120" fill="#E8C040"/><rect x="44" y="22" width="112" height="8" fill="#555"/><rect x="46" y="83" width="108" height="5" fill="#555"/><rect x="55" y="91" width="26" height="40" fill="#a8d4e6" rx="1"/><rect x="87" y="91" width="26" height="40" fill="#a8d4e6" rx="1"/><rect x="119" y="91" width="26" height="40" fill="#a8d4e6" rx="1"/><line x1="68" x2="68" y1="91" y2="131" stroke="white" stroke-width="1.5"/><line x1="100" x2="100" y1="91" y2="131" stroke="white" stroke-width="1.5"/><line x1="132" x2="132" y1="91" y2="131" stroke="white" stroke-width="1.5"/><rect x="57" y="38" width="30" height="34" fill="#a8d4e6" rx="2"/><rect x="113" y="38" width="30" height="34" fill="#a8d4e6" rx="2"/><line x1="72" x2="72" y1="38" y2="72" stroke="white" stroke-width="1.5"/><line x1="57" x2="87" y1="55" y2="55" stroke="white" stroke-width="1.5"/><line x1="128" x2="128" y1="38" y2="72" stroke="white" stroke-width="1.5"/><line x1="113" x2="143" y1="55" y2="55" stroke="white" stroke-width="1.5"/><circle cx="61" cy="71" r="3" fill="#e8556d"/><circle cx="70" cy="70" r="3" fill="#f5a623"/><rect x="82" y="118" width="36" height="32" fill="#cc2244" rx="2"/><circle cx="114" cy="138" r="2.5" fill="#d4a853"/></svg>`},
+  {t:"Scandinavian Farmhouse",d:"A minimal two-storey house with dark grey timber cladding, large picture windows, and a snowy landscape.",c:"#3A3A3A",i:["2 storeys","Dark timber","Snowy","Nordic"],svg:`<svg viewBox="0 0 200 170" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="170" fill="#d8e4e0"/><rect y="143" width="200" height="27" fill="#e8f0ee"/><ellipse cx="30" cy="143" rx="32" ry="8" fill="#dce8e4"/><ellipse cx="170" cy="143" rx="32" ry="8" fill="#dce8e4"/><rect x="13" y="90" width="4" height="55" fill="#5a4a3a"/><rect x="180" y="90" width="4" height="55" fill="#5a4a3a"/><rect x="30" y="72" width="140" height="70" fill="#3A3A3A"/><line x1="30" x2="170" y1="82" y2="82" stroke="#222" stroke-width="1.5" opacity="0.3"/><line x1="30" x2="170" y1="92" y2="92" stroke="#222" stroke-width="1.5" opacity="0.3"/><line x1="30" x2="170" y1="102" y2="102" stroke="#222" stroke-width="1.5" opacity="0.3"/><line x1="30" x2="170" y1="112" y2="112" stroke="#222" stroke-width="1.5" opacity="0.3"/><line x1="30" x2="170" y1="122" y2="122" stroke="#222" stroke-width="1.5" opacity="0.3"/><polygon points="22,72 100,24 178,72" fill="#222"/><path d="M22 72 Q60 60 100 56 Q140 60 178 72" fill="white" opacity="0.65"/><rect x="116" y="33" width="14" height="28" fill="#333"/><rect x="40" y="80" width="48" height="42" fill="#c8e0f0" rx="2"/><line x1="64" x2="64" y1="80" y2="122" stroke="white" stroke-width="2"/><line x1="40" x2="88" y1="101" y2="101" stroke="white" stroke-width="2"/><rect x="105" y="80" width="48" height="42" fill="#c8e0f0" rx="2"/><line x1="129" x2="129" y1="80" y2="122" stroke="white" stroke-width="2"/><line x1="105" x2="153" y1="101" y2="101" stroke="white" stroke-width="2"/><rect x="82" y="110" width="36" height="32" fill="white" rx="2"/><circle cx="116" cy="130" r="2.5" fill="#888"/></svg>`},
+  {t:"Desert Adobe Home",d:"A one-storey earth-toned home with rounded adobe walls, a flat roof with terracotta pots, and a cactus garden.",c:"#9A6030",i:["1 storey","Adobe clay","Cactus garden","Southwest"],svg:`<svg viewBox="0 0 200 170" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="170" fill="#f5e8c8"/><rect y="143" width="200" height="27" fill="#c8a050"/><rect x="8" y="102" width="8" height="44" fill="#5a8a3c" rx="4"/><rect x="2" y="120" width="16" height="6" fill="#5a8a3c" rx="3"/><rect x="180" y="107" width="8" height="40" fill="#5a8a3c" rx="4"/><rect x="174" y="122" width="16" height="6" fill="#5a8a3c" rx="3"/><rect x="25" y="68" width="150" height="76" fill="#C49060" rx="8"/><rect x="25" y="60" width="150" height="6" fill="#a87040" rx="3"/><rect x="38" y="54" width="10" height="9" fill="#c4622d" rx="2"/><ellipse cx="43" cy="53" rx="8" ry="5" fill="#6b9b4e"/><rect x="80" y="54" width="10" height="9" fill="#c4622d" rx="2"/><ellipse cx="85" cy="53" rx="8" ry="5" fill="#e8556d"/><rect x="120" y="54" width="10" height="9" fill="#c4622d" rx="2"/><ellipse cx="125" cy="53" rx="8" ry="5" fill="#f5a623"/><rect x="35" y="80" width="30" height="24" fill="#3a2810" rx="2"/><rect x="38" y="83" width="24" height="18" fill="#d8c8a0" rx="1" opacity="0.55"/><rect x="110" y="80" width="30" height="24" fill="#3a2810" rx="2"/><rect x="113" y="83" width="24" height="18" fill="#d8c8a0" rx="1" opacity="0.55"/><line x1="50" x2="50" y1="83" y2="101" stroke="#8a7060" stroke-width="1.5"/><line x1="38" x2="62" y1="92" y2="92" stroke="#8a7060" stroke-width="1.5"/><line x1="125" x2="125" y1="83" y2="101" stroke="#8a7060" stroke-width="1.5"/><rect x="80" y="98" width="40" height="47" fill="#3a2810" rx="20 20 3 3"/><circle cx="117" cy="131" r="2.5" fill="#d4a853"/></svg>`},
+];
+
+const TC = {grammar:{bg:"#ffe8e8",c:"#B83232"},punctuation:{bg:"#fff3e0",c:"#c47a1a"},factual:{bg:"#f0eafc",c:"#6030a8"},vocabulary:{bg:"#e8f4f8",c:"#1a6a8a"}};
+const LABELS = ["House A","House B","House C"];
+
+let currentHouses = [];
+let lastKey = "";
+let studentName = "";
+let currentText = "";
+let currentResult = null;
+
+function pick3() {
+  const pool = [...HOUSES].sort(() => Math.random() - 0.5).slice(0, 3);
+  const key = pool.map(h => h.t).sort().join("|");
+  if (key === lastKey) return pick3();
+  lastKey = key;
+  return pool;
+}
+
+function grade(s) {
+  return s >= 90 ? "A" : s >= 80 ? "B" : s >= 65 ? "C" : s >= 50 ? "D" : "E";
+}
+
+function renderHouses() {
+  const grid = document.getElementById("houses-grid");
+  grid.innerHTML = currentHouses.map((h, i) => `
+    <div class="hcard">
+      <div class="svgwrap">
+        ${h.svg}
+        <div class="hlbl" style="background:${h.c}">${LABELS[i]}</div>
+      </div>
+      <div class="hinfo">
+        <h3>${h.t}</h3>
+        <p>${h.d}</p>
+        <div class="tags">${h.i.map(d => `<span class="tag" style="border-color:${h.c};color:${h.c}">${d}</span>`).join("")}</div>
+      </div>
+    </div>
+  `).join("");
+}
+
+function newHouses() {
+  currentHouses = pick3();
+  renderHouses();
+  document.getElementById("student-text").value = "";
+  document.getElementById("char-count").textContent = "0";
+  document.getElementById("check-btn").disabled = true;
+  document.getElementById("err-msg").textContent = "";
+  document.getElementById("write-section").style.display = "block";
+  document.getElementById("loading-section").style.display = "none";
+  document.getElementById("result-section").style.display = "none";
+  document.getElementById("send-section").style.display = "block";
+  document.getElementById("sent-section").style.display = "none";
+  currentResult = null;
+}
+
+function startApp() {
+  studentName = document.getElementById("name-input").value.trim();
+  if (studentName.length < 2) return;
+  document.getElementById("name-screen").style.display = "none";
+  document.getElementById("app-screen").style.display = "block";
+  document.getElementById("name-chip").textContent = "👤 " + studentName;
+  currentHouses = pick3();
+  renderHouses();
+}
+
+document.getElementById("name-input").addEventListener("input", function() {
+  document.getElementById("start-btn").disabled = this.value.trim().length < 2;
+});
+
+document.getElementById("name-input").addEventListener("keydown", function(e) {
+  if (e.key === "Enter" && this.value.trim().length >= 2) startApp();
+});
+
+function updateCount() {
+  const val = document.getElementById("student-text").value;
+  document.getElementById("char-count").textContent = val.length;
+  document.getElementById("check-btn").disabled = val.trim().length < 15;
+}
+
+async function checkGrammar() {
+  currentText = document.getElementById("student-text").value.trim();
+  if (currentText.length < 15) return;
+
+  document.getElementById("write-section").style.display = "none";
+  document.getElementById("loading-section").style.display = "block";
+  document.getElementById("result-section").style.display = "none";
+  document.getElementById("err-msg").textContent = "";
+
+  const houseDesc = currentHouses.map((h, i) => LABELS[i] + ': "' + h.t + '" - ' + h.d).join(". ");
+  const systemPrompt = "You are a warm A2 English teacher. The student compared three houses: " + houseDesc + ". Evaluate GRAMMAR (comparative/superlative/as-as), PUNCTUATION, FACTUAL ACCURACY, VOCABULARY. Return ONLY a raw JSON object with keys: teacherComment (string), errors (array with type/wrong/correct/explanation), correctedText (string), score (integer 0-100). No markdown.";
+
+  try {
+    const res = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": API_KEY,
+        "anthropic-version": "2023-06-01",
+        "anthropic-dangerous-direct-browser-access": "true"
+      },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-20250514",
+        max_tokens: 1200,
+        system: systemPrompt,
+        messages: [{ role: "user", content: "Student: " + studentName + ". Paragraph: " + currentText }]
+      })
+    });
+
+    const data = await res.json();
+    const raw = data.content.map(c => c.text || "").join("").trim();
+    const jsonStr = raw.replace(/^```json\s*/, "").replace(/^```\s*/, "").replace(/```\s*$/, "").trim();
+    currentResult = JSON.parse(jsonStr);
+    showResult();
+  } catch(e) {
+    document.getElementById("write-section").style.display = "block";
+    document.getElementById("loading-section").style.display = "none";
+    document.getElementById("err-msg").textContent = "Could not reach the grammar checker. Please try again.";
+  }
+}
+
+function showResult() {
+  document.getElementById("loading-section").style.display = "none";
+  document.getElementById("result-section").style.display = "block";
+
+  const g = grade(currentResult.score);
+  const scoreColor = currentResult.score >= 80 ? "#4A7C59" : currentResult.score >= 55 ? "#e67e22" : "#B83232";
+  const scoreBg = currentResult.score >= 80 ? "#e8f0eb" : currentResult.score >= 55 ? "#fff3e0" : "#fce8e8";
+
+  const circle = document.getElementById("score-circle");
+  circle.textContent = g;
+  circle.style.background = scoreBg;
+  circle.style.color = scoreColor;
+
+  document.getElementById("feedback-title").textContent = "Feedback for " + studentName;
+  document.getElementById("score-label").textContent = "Score: " + currentResult.score + "/100";
+  document.getElementById("teacher-comment").textContent = currentResult.teacherComment;
+
+  const errSec = document.getElementById("errors-section");
+  if (currentResult.errors && currentResult.errors.length > 0) {
+    // Annotated text
+    let parts = [currentText];
+    currentResult.errors.forEach(e => {
+      parts = parts.flatMap(part => {
+        if (typeof part !== "string") return [part];
+        const re = new RegExp(e.wrong.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "gi");
+        const out = []; let last = 0, m;
+        while ((m = re.exec(part)) !== null) {
+          if (m.index > last) out.push(part.slice(last, m.index));
+          out.push({ text: m[0], type: e.type, expl: e.explanation });
+          last = m.index + m[0].length;
+        }
+        if (last < part.length) out.push(part.slice(last));
+        return out;
+      });
+    });
+
+    const annHtml = parts.map(p => {
+      if (typeof p === "string") return p;
+      const t = TC[p.type] || TC.grammar;
+      return `<span class="err-span" title="${p.type}: ${p.expl}" style="background:${t.bg};color:${t.c};text-decoration-color:${t.c}">${p.text}</span>`;
+    }).join("");
+
+    const errCards = currentResult.errors.map(e => {
+      const t = TC[e.type] || TC.grammar;
+      return `<div class="ecard" style="border-left-color:${t.c}">
+        <span class="type-badge" style="background:${t.bg};color:${t.c}">${e.type}</span>
+        <div class="wrong-line">❌ <span>${e.wrong}</span></div>
+        <div class="right-line">✅ <span>${e.correct}</span></div>
+        <div class="explanation">${e.explanation}</div>
+      </div>`;
+    }).join("");
+
+    errSec.innerHTML = `
+      <div class="sec-title">Your paragraph — issues underlined</div>
+      <div class="ann-text">${annHtml}</div>
+      <div class="sec-title">${currentResult.errors.length} issue${currentResult.errors.length > 1 ? "s" : ""} found</div>
+      <div class="elist">${errCards}</div>
+      <div class="sec-title">Corrected paragraph</div>
+      <div class="corrected-box">${currentResult.correctedText}</div>
+    `;
+  } else {
+    errSec.innerHTML = `<div class="no-errors"><div style="font-size:2rem">🎉</div><p style="margin-top:.5rem">No errors — excellent paragraph!</p></div>`;
+  }
+}
+
+function revise() {
+  document.getElementById("write-section").style.display = "block";
+  document.getElementById("result-section").style.display = "none";
+  currentResult = null;
+  document.getElementById("send-section").style.display = "block";
+  document.getElementById("sent-section").style.display = "none";
+}
+
+function submitForm() {
+  const p = new URLSearchParams();
+  p.set("entry.1245525950", studentName);
+  p.set("entry.534641073", String(currentResult.score));
+  p.set("entry.699912940", currentText);
+  p.set("entry.1330556185", currentResult.correctedText);
+  window.open(FORM + "?" + p.toString(), "_blank");
+  document.getElementById("send-section").style.display = "none";
+  document.getElementById("sent-section").style.display = "block";
+}
+</script>
+</body>
+</html>
